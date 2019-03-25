@@ -1,0 +1,23 @@
+digraph TREE {
+    node2 [label="y = 0"];
+    node1 -> node2 [label="True"];
+    node1 [label="x12 = 1?"];
+    node4 [label="y = 0"];
+    node3 -> node4 [label="True"];
+    node3 [label="x10 = 0?"];
+    node5 [label="y = 1"];
+    node3 -> node5 [label="False"];
+    node1 -> node3 [label="False"];
+    node0 -> node1 [label="True"];
+    node0 [label="x12 = 0?"];
+    node8 [label="y = 1"];
+    node7 -> node8 [label="True"];
+    node7 [label="x1 = 1?"];
+    node9 [label="y = 1"];
+    node7 -> node9 [label="False"];
+    node6 -> node7 [label="True"];
+    node6 [label="x15 = 0?"];
+    node10 [label="y = 1"];
+    node6 -> node10 [label="False"];
+    node0 -> node6 [label="False"];
+}
