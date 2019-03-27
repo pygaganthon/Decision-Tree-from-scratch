@@ -175,7 +175,8 @@ def id3(x, y, attribute_value_pairs, depth, max_depth):
             maxgain = MI
             maxpair = kvpair
            
-    attribute_value_pairs.remove(maxpair);                  # remove the maxpair from attribute_value_pairs
+    dup_attribute_value_pairs = attribute_value_pairs
+    dup_attribute_value_pairs.remove(maxpair)                  # remove the maxpair from attribute_value_pairs
     
     """
     v = 
@@ -192,9 +193,9 @@ def id3(x, y, attribute_value_pairs, depth, max_depth):
     """
     if(len(indexes)==0):
         root = {(maxpair[0],maxpair[1],True):u[count==count.max()][0],
-                    (maxpair[0],maxpair[1],False):id3(x,y,attribute_value_pairs, depth+1, max_depth)}
+                    (maxpair[0],maxpair[1],False):id3(x,y,dup_attribute_value_pairs, depth+1, max_depth)}
     if(len(indexes) == x.shape[0]):
-        root = {(maxpair[0],maxpair[1],True):id3(x, y, attribute_value_pairs, depth+1, max_depth),
+        root = {(maxpair[0],maxpair[1],True):id3(x, y, dup_attribute_value_pairs, depth+1, max_depth),
                     (maxpair[0],maxpair[1],False):u[count==count.max()][0]}
         """
     #else:
