@@ -72,7 +72,7 @@ def entropy(y):
     H=0
     for c in count:
         P = (c/y.shape[0])
-        H = H + P*math.log(P)
+        H = H - P*math.log(P)
     return H
     raise Exception('Function not yet implemented!')
 
@@ -92,7 +92,7 @@ def mutual_information(x, y):
     #Hygivenx = {}
     Ixy = defaultdict(int)   # without default dict it is giving key error 2
     for vx,cx in zip(np.unique(x,return_counts=True)[0],np.unique(x,return_counts=True)[1]):
-        Hygivenx = -(cx/x.shape[0])*entropy(y[np.where(x==vx)[0]]) - (1-cx/x.shape[0])*entropy(y[np.where(x!=vx)[0]])
+        Hygivenx = (cx/x.shape[0])*entropy(y[np.where(x==vx)[0]]) + (1-cx/x.shape[0])*entropy(y[np.where(x!=vx)[0]])
         Ixy[vx] = Hy-Hygivenx
     
     return Ixy
@@ -175,7 +175,7 @@ def id3(x, y, attribute_value_pairs, depth, max_depth):
             maxgain = MI
             maxpair = kvpair
            
-    dup_attribute_value_pairs = attribute_value_pairs
+    dup_attribute_value_pairs = attribute_value_pairs.copy()
     dup_attribute_value_pairs.remove(maxpair)                  # remove the maxpair from attribute_value_pairs
     
     """
@@ -199,10 +199,10 @@ def id3(x, y, attribute_value_pairs, depth, max_depth):
                     (maxpair[0],maxpair[1],False):u[count==count.max()][0]}
         """
     #else:
-    a = id3(x[indexes,:], y[indexes], attribute_value_pairs, depth+1, max_depth)
+    a = id3(x[indexes,:], y[indexes], dup_attribute_value_pairs, depth+1, max_depth)
     if(a=='null'):
         a = u[count==count.max()][0]
-    b = id3(x[mask,:],y[mask],attribute_value_pairs, depth+1, max_depth)
+    b = id3(x[mask,:],y[mask],dup_attribute_value_pairs, depth+1, max_depth)
     if(b=='null'):
         b = u[count==count.max()][0]
     root = {(maxpair[0],maxpair[1],True):a,(maxpair[0],maxpair[1],False):b}
